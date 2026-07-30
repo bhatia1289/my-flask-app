@@ -20,9 +20,20 @@ def data():
                  "Age" : 21}
     return jsonify(user_data)
 
-@app.route('/')
-def home_page():
-    return render_template('index.html')
+# @app.route('/')
+# def home_page():
+#     name = "Abhishek"
+#     return render_template('index.html', name = name)
+
+@app.route('/', methods =['GET'])
+def home():
+    return render_template('form.html')
+
+@app.route('/form', methods=['POST'])
+def form():
+    return "we have recieved your information"
+
+
 #trigger the flask app
 if __name__ == "__main__":
     app.run(debug= True)
