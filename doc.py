@@ -1,4 +1,5 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request,jsonify
+import pandas as pd
 
 app = Flask(__name__)
 
@@ -15,7 +16,23 @@ def get_data():
     if file.filename.endswith('.csv'):
         path = "userfile/" + file.filename
         file.save(path)
-        return "we have recieved your file"
+        # return "we have recieved your file"
+
+        ##read file
+        df = pd.read_csv("userfile/employee_attrition_test.csv")
+        print(df.head())
+
+        #basic stats :min , max, count, average of age
+        min_age = float(df['Age'].min())
+        max_age = float(df['Age'].max())
+        total_employees = float(df['Age'].count())
+        avg_Age = float(df['Age'].mean())
+
+        response = {"Min Age": min_age,
+                    "Max Age": max_age,
+                    "Total Employees": total_employees,
+                    "Average Age": avg_Age}
+        return jsonify(response)
     else:
         return "upload a csv file only."
 
